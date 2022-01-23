@@ -1,0 +1,41 @@
+services:
+    postgres:
+        image: postgres:13
+        environment:
+            POSTGRES_USER: airflow
+            POSTGRES_PASSWORD: airflow
+            POSTGRES_DB: airflow
+        volumes:
+            - postgres-db-volume:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD", "pg_isready", "-U", "airflow"]
+            internal: 5s
+            retries: 5
+        restart: always
+
+winpty docker run -it b \
+    -e POSTGRES_USER= "postgres" \
+    -e POSTGRES_PASSWORD= "root" \
+    -e POSTGRES_DB= "ny_taxi" \
+    -v c:/Users/JULO/Opensource/Data-Engineering/Week1/3_docker_sql/ny_taxi_postgres_data:/var/lib/postgresql/data \
+    -p 5432:5432 \
+    postgres:13
+
+winpty docker run -it b -e POSTGRES_USER= "root" -e POSTGRES_PASSWORD= "root" -e POSTGRES_DB= "ny_taxi" -v c:/Users/JULO/Opensource/Data-Engineering/Week1/3_docker_sql/ny_taxi_postgres_data:/var/lib/postgresql/data -p 5432:5432 postgres:13
+
+
+Running Docker for Postgresql
+-> winpty docker run -it -p 5432:5432 -e POSTGRES_USER="postgres" -e POSTGRES_PASSWORD="root" -e POSTGRES_DB="ny_taxi" postgres:14
+
+Running pgcli in bash environment
+-> winpty pgcli -h localhost -p 5432 -u postgres -d ny_taxi
+
+To download data from amazons3 using wget in bash environment
+-> wget https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-01.csv --no-check-certificate
+
+Checking top 100 rows for the success csv files downloaded and export it into new file (yellow_head.csv)
+-> head -n 100 yellow_tripdata_2021-01.csv > yellow_head.csv
+
+Checkin how many rows in one csv files
+-> wc -l yellow_tripdata_2021-01.csv
+
