@@ -1,4 +1,4 @@
 # Ignore spesific files
 test.py
 
-# Ignore spesific folders
+# Ignore spesific folders with this format /folder_name
