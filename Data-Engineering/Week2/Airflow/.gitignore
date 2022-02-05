@@ -1,0 +1,8 @@
+# Ignore spesific files
+*.log
+*.pyc
+*.env
+
+# Ignore spesific folders with this format /folder_name
+/logs
+/plugins
