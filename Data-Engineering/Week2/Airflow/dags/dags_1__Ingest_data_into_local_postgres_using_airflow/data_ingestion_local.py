@@ -1,10 +1,14 @@
+
+from datetime import datetime
 from airflow import DAG
 
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 
 local_workflow = DAG(
-    "LocalIngestionDag"
+    "Local_Ingestion_Dag"
+    , schedule_interval="0 6 2 * *"
+    , start_date=datetime(2021, 1, 1)
 )
 
 with local_workflow:
