@@ -1,4 +1,7 @@
 import os
+import sys
+
+# sys.path.insert(1, "/dags/dags_1__Ingest_data_into_local_postgres_using_airflow")
 
 from datetime import datetime
 from airflow import DAG
@@ -6,8 +9,50 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 
+
 from ingest_script import ingest_callable
 
+
+# def ingest_callable(user, password, host, port, db, table_name, csv_file, execution_date):
+#     print(table_name, csv_file, execution_date)
+
+#     engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{db}')
+#     engine.connect()
+
+#     print('connection established successfully, inserting data...')
+
+#     t_start = time()
+#     df_iter = pd.read_csv(csv_file, iterator=True, chunksize=100000)
+
+#     df = next(df_iter)
+
+#     df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
+#     df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
+
+#     df.head(n=0).to_sql(name=table_name, con=engine, if_exists='replace')
+
+#     df.to_sql(name=table_name, con=engine, if_exists='append')
+
+#     t_end = time()
+#     print('inserted the first chunk, took %.3f second' % (t_end - t_start))
+
+#     while True: 
+#         t_start = time()
+
+#         try:
+#             df = next(df_iter)
+#         except StopIteration:
+#             print("completed")
+#             break
+
+#         df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
+#         df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
+
+#         df.to_sql(name=table_name, con=engine, if_exists='append')
+
+#         t_end = time()
+
+#         print('inserted another chunk, took %.3f second' % (t_end - t_start))
 
 PG_HOST = os.getenv('PG_HOST')
 PG_USER = os.getenv('PG_USER')
@@ -55,7 +100,7 @@ with local_workflow:
             host=PG_HOST,
             port=PG_PORT,
             db=PG_DATABASE,
-            table_name=TABLE_NAME_TEMPLATE
+            table_name=TABLE_NAME_TEMPLATE,
             csv_file=OUTPUT_FILE_TEMPLATE
         ),
     )

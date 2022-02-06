@@ -1,0 +1,5 @@
+# Ignore spesific files
+*.csv
+
+# Ignore spesific folders with this format /folder_name
+/ny_taxi_postgres_data
