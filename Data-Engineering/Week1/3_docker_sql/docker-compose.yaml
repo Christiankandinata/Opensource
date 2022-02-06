@@ -4,25 +4,25 @@ services:
         environment:
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=root
-            - POSTGRES_DB=ny_taxi
+            - POSTGRES_DB=postgres
         volumes:
             - "./ny_taxi_postgres_data:/var/lib/postgresql/data:rw"
         ports:
             - "5432:5432"
-        networks:
-            - airflow
-    # pgadmin:
-    #     image: dpage/pgadmin4
-    #     environment:
-    #         -  PGADMIN_DEFAULT_EMAIL=admin@admin.com
-    #         -  PGADMIN_DEFAULT_PASSWORD=root
-    #     ports:
-    #         - "8080:80"
+        # networks:
+        #     - airflow
+    pgadmin:
+        image: dpage/pgadmin4
+        environment:
+            -  PGADMIN_DEFAULT_EMAIL=admin@admin.com 
+            -  PGADMIN_DEFAULT_PASSWORD=root
+        ports:
+            - "8080:80"
 
-networks:
-    airflow:
-        external:
-            name: airflow_default
+# networks:
+#     airflow:
+#         external:
+#             name: airflow_default
 
 # winpty docker run -it \
 #     -e POSTGRES_USER= "postgres" \
@@ -49,3 +49,6 @@ networks:
 
 # Checkin how many rows in one csv files
 # -> wc -l yellow_tripdata_2021-01.csv
+
+# Go into worker's log
+# -> docker exec -it 2f534f595e3c bash
